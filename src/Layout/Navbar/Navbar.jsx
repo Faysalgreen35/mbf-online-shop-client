@@ -39,12 +39,19 @@ const Navbar = () => {
       console.error("Logout error:", error);
     }
   };
+ 
 
   const navOptions = (
     <>
       <li>
         <NavLink
-          className={({ isActive }) => `block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 ${isActive ? 'text-blue-700 dark:text-blue-500' : ''}`}
+          className={({ isActive }) =>
+            `block  py-2 px-4 rounded md:p-0 md:px-4  md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 ${
+              isActive
+                ? 'bg-red-800  text-white   dark:bg-blue-500'
+                : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700'
+            }`
+          }
           aria-current="page"
           to="/"
         >
@@ -53,33 +60,63 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          className={({ isActive }) => `block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 ${isActive ? 'text-blue-700 dark:text-blue-500' : ''}`}
+          className={({ isActive }) =>
+          `block  py-2 px-4 rounded md:p-0 md:px-4  md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 ${
+              isActive
+                ? 'bg-red-800  text-white   dark:bg-blue-500'
+                
+                : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700'
+            }`
+          }
           to="/orders"
         >
-           Orders
+          Orders
         </NavLink>
       </li>
-       
       {!user && (
         <li>
           <NavLink
-            className={({ isActive }) => `block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 ${isActive ? 'text-blue-700 dark:text-blue-500' : ''}`}
+            className={({ isActive }) =>
+             `block  py-2 px-4 rounded md:p-0 md:px-4  md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 ${
+              isActive
+                ? 'bg-red-800  text-white   dark:bg-blue-500'
+               
+                  : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700'
+              }`
+            }
             to="/login"
           >
             Login
           </NavLink>
         </li>
       )}
+      {!user && (
+        <li>
+          <NavLink
+            className={({ isActive }) =>
+             `block  py-2 px-4 rounded md:p-0 md:px-4  md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 ${
+              isActive
+                ? 'bg-red-800  text-white   dark:bg-blue-500'
+               
+                  : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700'
+              }`
+            }
+            to="/register"
+          >
+             Register
+          </NavLink>
+        </li>
+      )}
     </>
   );
-
+  
   return (
     <div>
       <nav className="bg-white border-gray-200 dark:bg-gray-900 z-50 relative">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              <img src={logo} className="w-20 h-auto" alt="" />
+              <img src={logo} className="w-8 h-8" alt="" />
             </span>
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
          MBF Shop
