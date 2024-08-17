@@ -48,10 +48,19 @@ const Login = () => {
     return (
         <>
             <Helmet>
-                <title>Pet Adoption | Login</title>
+                <title> MBF Shop | Login</title>
             </Helmet>
             <div className="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg   dark:bg-gray-800 lg:max-w-4xl shadow-2xl lg:pb-12">
                 <div className="hidden  lg:bg-cover lg:block lg:w-1/2" style={{ backgroundImage: "url('https://img.freepik.com/premium-vector/geometric-gradient-technology-background_23-2149110132.jpg')" }}>
+                <p className="mt-3 text-sm md:text-2xl  text-center text-gray-100 dark:text-gray-200 font-bold font-mono">
+                    <span className="text-center mx-auto font-bold font-mono">
+                        <img className="text-center  mx-auto mt-3 md:mt-12 mb-3" src={logo} alt="" />
+                    </span>
+                      <span className="mt-12">
+                      Welcome to MBF Shop
+                      </span>
+                    </p>
+
                 </div>
 
                 <div className="w-full px-6 py-8 md:px-8 lg:w-1/2">
@@ -60,7 +69,7 @@ const Login = () => {
                     </div>
 
                     <p className="mt-3 text-xl text-center text-gray-600 dark:text-gray-200">
-                        Welcome back!
+                        Welcome  to Login Page!
                     </p>
 
                    {/* social login  */}
