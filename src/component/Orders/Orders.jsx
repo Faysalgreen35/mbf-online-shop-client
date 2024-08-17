@@ -5,6 +5,7 @@ import { Link, useLoaderData } from 'react-router-dom';
 import './Orders.css';
 import { deleteShoppingCart, removeFromDb } from '../../utilities/fakedb';
 import ReviewItem from '../ReviewItem/ReviewItem';
+import { MdOutlineShoppingCartCheckout } from 'react-icons/md';
 
 const Orders = () => {
     const savedCart = useLoaderData();
@@ -23,8 +24,8 @@ const Orders = () => {
     }
 
     return (
-        <div className='shop-container'>
-            <div className='review-container'>
+        <div className='shop-container flex flex-col md:flex-row'>
+            <div className='review-container w-full md:w-1/2 px-6'>
                 {
                     cart.map(product => <ReviewItem
                         key={product._id}
@@ -33,13 +34,17 @@ const Orders = () => {
                     ></ReviewItem>)
                 }
             </div>
-            <div className='cart-container'>
+            <div className='cart-container  mr-3  w-full md:w-1/3 px-5 text-sm'>
                 <Cart
                     cart={cart}
                     handleClearCart={handleClearCart}
                 >
-                    <Link className='proceed-link' to="/checkout">
-                        <button className='btn-proceed'>Proceed Checkout</button>
+                    <Link className='proceed-link' to="#">
+                   
+                        <button className='btn-proceed btn-proceed-cart bg-green-500 w-60 md:w-52 px-5 text-sm'>
+                             Checkout
+                            <MdOutlineShoppingCartCheckout className='  text-3xl' />
+                            </button>
                     </Link>
                 </Cart>
             </div>

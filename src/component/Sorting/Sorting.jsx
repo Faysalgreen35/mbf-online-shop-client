@@ -4,7 +4,7 @@
 const Sorting = ({ sortOptions, onSortChange }) => {
     return (
         <div className="sorting-container max-w-md mx-auto mb-4 flex items-center justify-center md:justify-end -mt-7">
-            <label htmlFor="sort" className="block  text-green-400 text-sm font-medium  dark:text-white mr-3">
+            <label htmlFor="sort" className="block  text-green-600 text-m font-medium  dark:text-white mr-3 uppercase">
                 Sort By:
             </label>
             <select

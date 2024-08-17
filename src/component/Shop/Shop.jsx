@@ -6,8 +6,8 @@ import Product from '../../Product/Product';
 import Filter from '../Filter/Filter';
 import SearchBar from '../SearchBar/SearchBar';
 import Sorting from '../Sorting/Sorting';
-import { FaFilter } from 'react-icons/fa';
-
+import { FaFilter } from 'react-icons/fa'; 
+import LoadingSpinner from '../../Layout/LoadingSpinner';
 const Shop = () => {
     const [products, setProducts] = useState([]);
     const [cart, setCart] = useState([]);
@@ -22,17 +22,16 @@ const Shop = () => {
     const pages = [...Array(numberOfPages).keys()];
     const [searchQuery, setSearchQuery] = useState('');
     const [sortOption, setSortOption] = useState({ field: 'dateAdded', order: 'asc' });
-
+    const [loading, setLoading] = useState(true); // Loading state
     const handleSortChange = (sortValue) => {
         const [field, order] = sortValue.split('-');
         setSortOption({ field, order });
     };
 
-
     useEffect(() => {
-        fetch(`https://spw-app-server.vercel.app/products?page=${currentPage}&size=${itemsPerPage}&sortField=${sortOption.field}&sortOrder=${sortOption.order}`)
-        // fetch(`http://localhost:5000/products?page=${currentPage}&size=${itemsPerPage}&sortField=${sortOption.field}&sortOrder=${sortOption.order}`)
+        setLoading(true); // Start loading
 
+        fetch(`https://spw-app-server.vercel.app/products?page=${currentPage}&size=${itemsPerPage}&sortField=${sortOption.field}&sortOrder=${sortOption.order}`)
             .then(res => res.json())
             .then(data => {
                 setProducts(data);
@@ -41,10 +40,29 @@ const Shop = () => {
                 const uniqueBrands = [...new Set(data.map(item => item.brand))];
                 setCategories(uniqueCategories);
                 setBrands(uniqueBrands);
+                setLoading(false); // Stop loading
+            })
+            .catch(() => {
+                setLoading(false); // Stop loading even if there's an error
             });
     }, [currentPage, itemsPerPage, sortOption]);
 
- 
+    // useEffect(() => {
+    //     fetch(`https://spw-app-server.vercel.app/products?page=${currentPage}&size=${itemsPerPage}&sortField=${sortOption.field}&sortOrder=${sortOption.order}`)
+    //     // fetch(`http://localhost:5000/products?page=${currentPage}&size=${itemsPerPage}&sortField=${sortOption.field}&sortOrder=${sortOption.order}`)
+
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             setProducts(data);
+    //             // Extract categories and brands
+    //             const uniqueCategories = [...new Set(data.map(item => item.category))];
+    //             const uniqueBrands = [...new Set(data.map(item => item.brand))];
+    //             setCategories(uniqueCategories);
+    //             setBrands(uniqueBrands);
+    //         });
+    // }, [currentPage, itemsPerPage, sortOption]);
+
+
     useEffect(() => {
         const storedCart = getShoppingCart();
         const savedCart = [];
@@ -146,55 +164,41 @@ const Shop = () => {
 
             <div className='flex md:flex-row mt-5 4 flex-col justify-evenly items-center gap-2 mx-auto'>
                 <div className='w-full  md:w-1/2 px-4 translate-x-0 md:translate-x-44'>  <SearchBar setSearchQuery={setSearchQuery} /></div>
-               
-                <div className='w-full md:w-1/3 text-center md:text-end'> 
-               <div className='flex items-center justify-between'>
-                <div>
-                {/* Filter Button for Small Devices */}
-            <div className='md:hidden flex   p-4 justify-center  '>
-                <button
-                    className='filter-button bg-yellow-800 -mt-10 md:mt-0 text-white rounded-md px-4 py-2'
-                    onClick={toggleFilterVisibility}
-                >
-                    {isFilterVisible ?  <FaFilter /> :  <FaFilter />}
-                </button>
-            </div>
-                </div>
-                <div className='mr-4 md:mr-0'>
-                <Sorting
-                    sortOptions={[
-                        { value: 'price-asc', label: ' Low to High' },
-                        { value: 'price-desc', label: ' High to Low' },
-                        { value: 'dateAdded-desc', label: ' Newest First' },
-                    ]}
-                    onSortChange={handleSortChange}
-                />
-                </div>
-               </div>
-                 {/* <Sorting
-                    sortOptions={[
-                        { value: 'price-asc', label: ' Low to High' },
-                        { value: 'price-desc', label: ' High to Low' },
-                        { value: 'dateAdded-desc', label: ' Newest First' },
-                    ]}
-                    onSortChange={handleSortChange}
-                /> */}
+
+                <div className='w-full md:w-1/3 text-center md:text-end'>
+                    <div className='flex items-center justify-between'>
+                        <div>
+                            {/* Filter Button for Small Devices */}
+                            <div className='md:hidden flex   p-4 justify-center  '>
+                                <button
+                                    className='filter-button bg-yellow-800 -mt-10 md:mt-0 text-white rounded-md px-4 py-2'
+                                    onClick={toggleFilterVisibility}
+                                >
+                                    {isFilterVisible ? <FaFilter /> : <FaFilter />}
+                                </button>
+                            </div>
+                        </div>
+                        <div className='mr-4 md:mr-0'>
+                            <Sorting
+                                sortOptions={[
+                                    { value: 'dateAdded-desc', label: ' Newest First' },
+                                    { value: 'price-desc', label: ' High to Low  ' },
+                                    { value: 'price-asc', label: ' Low to High' },
+
+                                ]}
+                                onSortChange={handleSortChange}
+                            />
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
-                      {/* Filter Button for Small Devices */}
-            {/* <div className='md:hidden flex   p-4 justify-center'>
-                <button
-                    className='filter-button bg-blue-500 text-white rounded-md px-4 py-2'
-                    onClick={toggleFilterVisibility}
-                >
-                    {isFilterVisible ?  <FaFilter /> :  <FaFilter />}
-                </button>
-            </div> */}
+
 
 
             <div className='grid grid-cols-1 md:grid-cols-4 gap-6 mx-auto'>
-            {/* Filter Section */}
+                {/* Filter Section */}
                 <div
                     className={`filter-container col-span-1 grid grid-cols-1 mx-auto ${isFilterVisible ? 'block' : 'hidden'} md:block`}
                 >
@@ -208,16 +212,24 @@ const Shop = () => {
                     />
                 </div>
 
-                {/* <div className="filter-container col-span-1 grid grid-cols-1 mx-auto">
-                    <Filter
-                        categories={categories}
-                        brands={brands}
-                        // eslint-disable-next-line no-undef
-                        handleFilterChange={(type, value) => handleFilterChange(type, value)}
-                        applyFilters={applyFilters}
-                    />
-                </div> */}
-                <div className="products-container  col-span-3 grid grid-cols-1 md:grid-cols-3 gap-5 mx-auto">
+                {/* Loading Spinner */}
+                {loading ? (
+                     
+                    <LoadingSpinner></LoadingSpinner>
+
+
+                ) : (
+                    <div className="products-container col-span-3 grid grid-cols-1 md:grid-cols-3 gap-5 mx-auto">
+                        {filteredProducts.map(product => (
+                            <Product
+                                key={product._id}
+                                product={product}
+                                handleAddToCart={handleAddToCart}
+                            />
+                        ))}
+                    </div>
+                )}
+                {/* <div className="products-container  col-span-3 grid grid-cols-1 md:grid-cols-3 gap-5 mx-auto">
                     {
                         filteredProducts.map(product => <Product
                             key={product._id}
@@ -225,10 +237,10 @@ const Shop = () => {
                             handleAddToCart={handleAddToCart}
                         ></Product>)
                     }
-                </div>
+                </div> */}
             </div>
             <div className='hidden md:block'>
-                <div className='pagination '>
+                <div className='pagination rounded-xl'>
                     <p className='text-white'>Current Page : {currentPage}</p>
                     <button className='rounded-full px-12 py-6' onClick={handlePrevPage}>Prev</button>
 
@@ -253,10 +265,10 @@ const Shop = () => {
                     <button className='rounded-full px-12 py-6' onClick={handleNextPage}>Next</button>
 
                     <select value={itemsPerPage} onChange={handleItemsPerPage} name='' id=''>
-                        <option value='5'>5</option>
+                        {/* <option value='5'>5</option> */}
                         <option value='10'>10</option>
-                        <option value='30'>30</option>
-                        <option value='50'>50</option>
+                        <option value='20'>20</option>
+                        <option value='40'>40</option>
 
                     </select>
                 </div>

@@ -22,19 +22,19 @@ const Cart = ({ cart, handleClearCart, children }) => {
     }
     const tax = totalPrice * 7 / 100;
 
-    const grandTotal = totalPrice + totalShipping + tax;
+    const grandTotal = totalPrice  + tax;
 
     return (
-        <div className='cart'>
+        <div className='cart mt-12  '>
             <h4>Order Summary</h4>
             <p>Selected Items: {quantity}</p>
             <p>Total Price: ${totalPrice}</p>
-            <p>Shipping: ${totalShipping}</p>
-            <p>Tax: ${tax.toFixed(2)}</p>
+            {/* <p>Shipping: ${totalShipping||"20"}</p> */}
+            <p>Tax: ${tax?.toFixed(2) || totalPrice }</p>
             <h6>Grand Total: ${grandTotal.toFixed(2)} </h6>
-            <button onClick={handleClearCart} className='btn-clear-cart'>
+            <button onClick={handleClearCart} className='btn-clear-cart w-1/2 px-2   '>
                 <span>Clear Cart </span>
-                <FontAwesomeIcon icon={faTrashAlt} />
+                <FontAwesomeIcon className='ml-2' icon={faTrashAlt} />
             </button>
             {children}
         </div>

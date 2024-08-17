@@ -5,12 +5,12 @@ import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import './ReviewItem.css';
 
 const ReviewItem = ({ product, handleRemoveFromCart }) => {
-    const { _id, img, price, name, quantity } = product;
+    const { _id, image, price, title, quantity } = product;
     return (
         <div className='review-item'>
-            <img src={img} alt="" />
+            <img src={image} alt="" />
             <div className='review-details'>
-                <p className='product-title'>{name}</p>
+                <p className='product-name'>{title}</p>
                 <p>Price: <span className='orange-text'>${price}</span></p>
                 <p>Order Quantity: <span className='orange-text'>{quantity}</span></p>
             </div>

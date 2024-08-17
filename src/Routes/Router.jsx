@@ -9,6 +9,7 @@ import {
   } from "react-router-dom"; 
 import cartProductsLoader from './../component/loaders/cartProductsLoader';
 import Orders from "../component/Orders/Orders";
+import PrivateRoutes from "../Provider/PrivateRoutes";
 export const router = createBrowserRouter([
     {
       path: "/",
@@ -22,7 +23,7 @@ export const router = createBrowserRouter([
         },
         {
           path: 'orders',
-          element: <Orders></Orders>,
+          element:<PrivateRoutes><Orders></Orders></PrivateRoutes> ,
           loader: cartProductsLoader
         },
         {
