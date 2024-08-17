@@ -114,11 +114,11 @@ const Shop = () => {
 
 
     return (
-        <div className='shop-container'>
+        <div className='shop-container mx-auto'>
 
-            <div className='flex md:flex-row  flex-col justify-evenly items-center gap-2 '>
-                <div className='w-1/2'>  <SearchBar setSearchQuery={setSearchQuery} /></div>
-                <div className='w-1/3'>  <Sorting
+            <div className='flex md:flex-row mt-5 4 flex-col justify-evenly items-center gap-2 mx-auto'>
+                <div className='w-full  md:w-1/2 px-4 translate-x-0 md:translate-x-44'>  <SearchBar setSearchQuery={setSearchQuery} /></div>
+                <div className='w-full md:w-1/3 text-center md:text-end'>  <Sorting
                     sortOptions={[
                         { value: 'price-asc', label: ' Low to High' },
                         { value: 'price-desc', label: ' High to Low' },
@@ -134,7 +134,7 @@ const Shop = () => {
             <div className='grid grid-cols-1 md:grid-cols-4 gap-6 mx-auto'>
 
 
-                <div className="filter-container col-span-1">
+                <div className="filter-container col-span-1 grid grid-cols-1 mx-auto">
                     <Filter
                         categories={categories}
                         brands={brands}
@@ -143,7 +143,7 @@ const Shop = () => {
                         applyFilters={applyFilters}
                     />
                 </div>
-                <div className="products-container  col-span-3 grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div className="products-container  col-span-3 grid grid-cols-1 md:grid-cols-3 gap-5 mx-auto">
                     {
                         filteredProducts.map(product => <Product
                             key={product._id}

@@ -3,7 +3,7 @@
 
 const Sorting = ({ sortOptions, onSortChange }) => {
     return (
-        <div className="sorting-container max-w-md mx-auto mb-4 flex items-center justify-end -mt-7">
+        <div className="sorting-container max-w-md mx-auto mb-4 flex items-center justify-center md:justify-end -mt-7">
             <label htmlFor="sort" className="block  text-green-400 text-sm font-medium  dark:text-white mr-3">
                 Sort By:
             </label>
