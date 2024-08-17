@@ -5,7 +5,8 @@ import { app } from "../firebase/firebase.config";
 import { GithubAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 
 import { GoogleAuthProvider } from "firebase/auth";
-import useAxiosPublic from './../hooks/useAxiosPublic';
+import useAxiosPublic from "../hooks/useAxiosPublic";
+// import useAxiosPublic from './../hooks/useAxiosPublic';
  
 
 export const AuthContext = createContext(null);
@@ -112,7 +113,7 @@ export default AuthProvider;
 //   const createUser = async (name, pin, mobileNumber, email, role) => {
 //     setLoading(true);
 //     try {
-//           const response = await axios.post('http://localhost:5000/register', { name, pin, mobileNumber, email, role });
+//           const response = await axios.post('https://spw-app-server.vercel.app/register', { name, pin, mobileNumber, email, role });
 //       setUser(response.data.user);
 //       localStorage.setItem('access-token', response.data.token);
 //       setLoading(false);
@@ -127,7 +128,7 @@ export default AuthProvider;
 //   const signIn = async (emailOrPhone, pin) => {
 //     setLoading(true);
 //     try {
-//       const response = await axios.post('http://localhost:5000/login', { emailOrPhone, pin });
+//       const response = await axios.post('https://spw-app-server.vercel.app/login', { emailOrPhone, pin });
 //       setUser(response.data.user);
 //       localStorage.setItem('access-token', response.data.token);
 //       setLoading(false);
@@ -152,7 +153,7 @@ export default AuthProvider;
 //       const token = localStorage.getItem('access-token');
 //       if (token) {
 //         try {
-//           const response = await axios.get('http://localhost:5000/user', {
+//           const response = await axios.get('https://spw-app-server.vercel.app/user', {
 //             headers: {
 //               Authorization: `Bearer ${token}`
 //             }

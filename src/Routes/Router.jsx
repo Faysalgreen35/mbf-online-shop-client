@@ -18,7 +18,7 @@ export const router = createBrowserRouter([
         {
           path: '/',
           element: <Home></Home>,
-          loader: () => fetch('http://localhost:5000/productsCount')
+          loader: () => fetch('https://spw-app-server.vercel.app/productsCount')
         },
         {
           path: 'orders',

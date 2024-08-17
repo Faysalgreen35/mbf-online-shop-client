@@ -29,8 +29,9 @@ const Shop = () => {
 
 
     useEffect(() => {
-        fetch(`http://localhost:5000/products?page=${currentPage}&size=${itemsPerPage}&sortField=${sortOption.field}&sortOrder=${sortOption.order}`)
-        
+        fetch(`https://spw-app-server.vercel.app/products?page=${currentPage}&size=${itemsPerPage}&sortField=${sortOption.field}&sortOrder=${sortOption.order}`)
+        // fetch(`http://localhost:5000/products?page=${currentPage}&size=${itemsPerPage}&sortField=${sortOption.field}&sortOrder=${sortOption.order}`)
+
             .then(res => res.json())
             .then(data => {
                 setProducts(data);
@@ -42,20 +43,7 @@ const Shop = () => {
             });
     }, [currentPage, itemsPerPage, sortOption]);
 
-
-    //   useEffect(() => {
-    //         fetch(`http://localhost:5000/products?page=${currentPage}&size=${itemsPerPage}`)
-    //             .then(res => res.json())
-    //             .then(data => {
-    //                 setProducts(data);
-    //                 // Extract categories and brands
-    //                 const uniqueCategories = [...new Set(data.map(item => item.category))];
-    //                 const uniqueBrands = [...new Set(data.map(item => item.brand))];
-    //                 setCategories(uniqueCategories);
-    //                 setBrands(uniqueBrands);
-    //             });
-    //     }, [currentPage, itemsPerPage]);
-
+ 
     useEffect(() => {
         const storedCart = getShoppingCart();
         const savedCart = [];
@@ -128,7 +116,7 @@ const Shop = () => {
     return (
         <div className='shop-container'>
 
-            <div className='flex justify-evenly items-center gap-2 '>
+            <div className='flex md:flex-row  flex-col justify-evenly items-center gap-2 '>
                 <div className='w-1/2'>  <SearchBar setSearchQuery={setSearchQuery} /></div>
                 <div className='w-1/3'>  <Sorting
                     sortOptions={[
@@ -165,39 +153,41 @@ const Shop = () => {
                     }
                 </div>
             </div>
+            <div className='hidden md:block'>
+                <div className='pagination '>
+                    <p className='text-white'>Current Page : {currentPage}</p>
+                    <button className='rounded-full px-12 py-6' onClick={handlePrevPage}>Prev</button>
 
-            <div className='pagination  '>
-                <p className='text-white'>Current Page : {currentPage}</p>
-                <button className='rounded-full px-12 py-6' onClick={handlePrevPage}>Prev</button>
-
-                {
-                    pages.map(page => <button
+                    {
+                        pages.map(page => <button
 
 
-                        // className= {currentPage === page ? 'selected' : undefined}
-                        className={
-                            currentPage === page
-                                ? 'bg-red-500 selected text-white rounded-full px-4 py-2 mx-1'  // Active page styling
-                                : 'bg-gray-200 text-gray-800 rounded-full px-4 py-2 mx-1 hover:bg-blue-300' // Default styling
-                        }
-                        onClick={() => setCurrentPage(page)}
-                        key={page}
+                            // className= {currentPage === page ? 'selected' : undefined}
+                            className={
+                                currentPage === page
+                                    ? 'bg-red-500 selected text-white rounded-full px-4 py-2 mx-1'  // Active page styling
+                                    : 'bg-gray-200 text-gray-800 rounded-full px-4 py-2 mx-1 hover:bg-blue-300' // Default styling
+                            }
+                            onClick={() => setCurrentPage(page)}
+                            key={page}
 
-                    >
-                        {page}
-                    </button>)
-                }
+                        >
+                            {page}
+                        </button>)
+                    }
 
-                <button className='rounded-full px-12 py-6' onClick={handleNextPage}>Next</button>
+                    <button className='rounded-full px-12 py-6' onClick={handleNextPage}>Next</button>
 
-                <select value={itemsPerPage} onChange={handleItemsPerPage} name='' id=''>
-                    <option value='5'>5</option>
-                    <option value='10'>10</option>
-                    <option value='30'>30</option>
-                    <option value='50'>50</option>
+                    <select value={itemsPerPage} onChange={handleItemsPerPage} name='' id=''>
+                        <option value='5'>5</option>
+                        <option value='10'>10</option>
+                        <option value='30'>30</option>
+                        <option value='50'>50</option>
 
-                </select>
+                    </select>
+                </div>
             </div>
+
         </div>
     );
 };
