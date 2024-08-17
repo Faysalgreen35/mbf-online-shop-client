@@ -47,7 +47,7 @@ const Filter = ({ categories, brands, handleFilterChange, applyFilters }) => {
                 <select 
                     value={localFilters.category}
                     onChange={e => handleChange('category', e.target.value)} 
-                    className="w-full p-2 rounded-md bg-white dark:bg-black dark:text-white"
+                    className="w-full p-2 rounded-md bg-white dark:bg-black dark:text-white uppercase"
                 >
                     <option className=' dark:bg-black dark:text-white' value="">All Categories</option>
                     {categories.map(category => (
