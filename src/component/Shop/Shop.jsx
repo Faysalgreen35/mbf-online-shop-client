@@ -6,6 +6,7 @@ import Product from '../../Product/Product';
 import Filter from '../Filter/Filter';
 import SearchBar from '../SearchBar/SearchBar';
 import Sorting from '../Sorting/Sorting';
+import { FaFilter } from 'react-icons/fa';
 
 const Shop = () => {
     const [products, setProducts] = useState([]);
@@ -111,6 +112,33 @@ const Shop = () => {
         setFilters(filterValues);
     };
 
+    // filter mobile 
+    const [isFilterVisible, setIsFilterVisible] = useState(false);
+
+    const toggleFilterVisibility = () => {
+        setIsFilterVisible(!isFilterVisible);
+    };
+
+    const closeFilter = () => {
+        setIsFilterVisible(false);
+    };
+
+    // Close the filter when clicking outside of it
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (isFilterVisible && !event.target.closest('.filter-container') && !event.target.closest('.filter-button')) {
+                closeFilter();
+            }
+        };
+
+        document.addEventListener('click', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    }, [isFilterVisible]);
+
+
 
 
     return (
@@ -118,23 +146,69 @@ const Shop = () => {
 
             <div className='flex md:flex-row mt-5 4 flex-col justify-evenly items-center gap-2 mx-auto'>
                 <div className='w-full  md:w-1/2 px-4 translate-x-0 md:translate-x-44'>  <SearchBar setSearchQuery={setSearchQuery} /></div>
-                <div className='w-full md:w-1/3 text-center md:text-end'>  <Sorting
+               
+                <div className='w-full md:w-1/3 text-center md:text-end'> 
+               <div className='flex items-center justify-between'>
+                <div>
+                {/* Filter Button for Small Devices */}
+            <div className='md:hidden flex   p-4 justify-center  '>
+                <button
+                    className='filter-button bg-yellow-800 -mt-10 md:mt-0 text-white rounded-md px-4 py-2'
+                    onClick={toggleFilterVisibility}
+                >
+                    {isFilterVisible ?  <FaFilter /> :  <FaFilter />}
+                </button>
+            </div>
+                </div>
+                <div className='mr-4 md:mr-0'>
+                <Sorting
                     sortOptions={[
                         { value: 'price-asc', label: ' Low to High' },
                         { value: 'price-desc', label: ' High to Low' },
                         { value: 'dateAdded-desc', label: ' Newest First' },
                     ]}
                     onSortChange={handleSortChange}
-                /></div>
+                />
+                </div>
+               </div>
+                 {/* <Sorting
+                    sortOptions={[
+                        { value: 'price-asc', label: ' Low to High' },
+                        { value: 'price-desc', label: ' High to Low' },
+                        { value: 'dateAdded-desc', label: ' Newest First' },
+                    ]}
+                    onSortChange={handleSortChange}
+                /> */}
+                </div>
             </div>
 
-
+                      {/* Filter Button for Small Devices */}
+            {/* <div className='md:hidden flex   p-4 justify-center'>
+                <button
+                    className='filter-button bg-blue-500 text-white rounded-md px-4 py-2'
+                    onClick={toggleFilterVisibility}
+                >
+                    {isFilterVisible ?  <FaFilter /> :  <FaFilter />}
+                </button>
+            </div> */}
 
 
             <div className='grid grid-cols-1 md:grid-cols-4 gap-6 mx-auto'>
+            {/* Filter Section */}
+                <div
+                    className={`filter-container col-span-1 grid grid-cols-1 mx-auto ${isFilterVisible ? 'block' : 'hidden'} md:block`}
+                >
+                    <Filter
+                        categories={categories}
+                        brands={brands}
+                        applyFilters={(filterValues) => {
+                            applyFilters(filterValues);
+                            closeFilter(); // Close filter after applying
+                        }}
+                    />
+                </div>
 
-
-                <div className="filter-container col-span-1 grid grid-cols-1 mx-auto">
+                {/* <div className="filter-container col-span-1 grid grid-cols-1 mx-auto">
                     <Filter
                         categories={categories}
                         brands={brands}
@@ -142,7 +216,7 @@ const Shop = () => {
                         handleFilterChange={(type, value) => handleFilterChange(type, value)}
                         applyFilters={applyFilters}
                     />
-                </div>
+                </div> */}
                 <div className="products-container  col-span-3 grid grid-cols-1 md:grid-cols-3 gap-5 mx-auto">
                     {
                         filteredProducts.map(product => <Product

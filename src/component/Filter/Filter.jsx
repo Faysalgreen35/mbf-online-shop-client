@@ -23,7 +23,7 @@ const Filter = ({ categories, brands, handleFilterChange, applyFilters }) => {
     };
 
     return (
-        <div className="filter-container p-4 bg-red-200 rounded-lg h-auto mx-auto md:min-h-screen dark:bg-slate-500 dark:text-white">
+        <div className="filter-container p-4 bg-red-200 rounded-lg h-auto mx-auto  md:min-h-screen dark:bg-slate-500 dark:text-white">
             <h2 className="text-xl font-bold mb-4">Filter Products</h2>
 
             {/* Brand Name Filter */}
