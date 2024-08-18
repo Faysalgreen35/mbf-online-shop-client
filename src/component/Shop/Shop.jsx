@@ -19,38 +19,58 @@ const Shop = () => {
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(0);
     const numberOfPages = Math.ceil(count / itemsPerPage);
+    // const numberOfPages = Math.ceil(filteredProducts.length / itemsPerPage);
+
     const pages = [...Array(numberOfPages).keys()];
     const [searchQuery, setSearchQuery] = useState('');
-    const [sortOption, setSortOption] = useState({ field: 'dateAdded', order: 'asc' });
+    const [sortOption, setSortOption] = useState({ field: 'dateAdded', order: 'desc' });
     const [loading, setLoading] = useState(true); // Loading state
     const handleSortChange = (sortValue) => {
         const [field, order] = sortValue.split('-');
         setSortOption({ field, order });
     };
-
     useEffect(() => {
-        setLoading(true); // Start loading
+        setLoading(true);
+    
+        const { brand, category, minPrice, maxPrice } = filters;
 
-        fetch(`https://spw-app-server.vercel.app/products?page=${currentPage}&size=${itemsPerPage}&sortField=${sortOption.field}&sortOrder=${sortOption.order}`)
-            .then(res => res.json())
-            .then(data => {
-                setProducts(data);
-                // Extract categories and brands
-                const uniqueCategories = [...new Set(data.map(item => item.category))];
-                const uniqueBrands = [...new Set(data.map(item => item.brand))];
-                setCategories(uniqueCategories);
-                setBrands(uniqueBrands);
-                setLoading(false); // Stop loading
-            })
-            .catch(() => {
-                setLoading(false); // Stop loading even if there's an error
-            });
-    }, [currentPage, itemsPerPage, sortOption]);
+        // Construct the query parameters based on filters
+        const queryParams = new URLSearchParams({
+            page: currentPage,
+            size: itemsPerPage,
+            sortField: sortOption.field,
+            sortOrder: sortOption.order,
+            search: searchQuery,
+            brand: brand || '',
+            category: category || '',
+            minPrice: minPrice || 0,
+            maxPrice: maxPrice || Infinity
+        });
+        fetch(`https://spw-app-server.vercel.app/products?${queryParams.toString()}`)
+        // fetch(`https://spw-app-server.vercel.app/products?page=${currentPage}&size=${itemsPerPage}&sortField=${sortOption.field}&sortOrder=${sortOption.order}&search=${searchQuery}&brand=${filters.brand}&category=${filters.category}&minPrice=${filters.minPrice}&maxPrice=${filters.maxPrice}`)
+        .then(res => res.json())
+        .then(data => {
+            setProducts(data.products); // Access products from the response
+            
+            // Extract categories and brands
+            const uniqueCategories = [...new Set(data.products.map(item => item.category))];
+            const uniqueBrands = [...new Set(data.products.map(item => item.brand))];
+            setCategories(uniqueCategories);
+            setBrands(uniqueBrands);
 
+            setFilteredProducts(data.products); // Directly use the filtered products from the backend
+
+            setLoading(false); // Stop loading
+        })
+        .catch(() => {
+            setLoading(false); // Stop loading even if there's an error
+        });
+    }, [currentPage, itemsPerPage, sortOption, filters, searchQuery]);
+    
     // useEffect(() => {
-    //     fetch(`https://spw-app-server.vercel.app/products?page=${currentPage}&size=${itemsPerPage}&sortField=${sortOption.field}&sortOrder=${sortOption.order}`)
-    //     // fetch(`http://localhost:5000/products?page=${currentPage}&size=${itemsPerPage}&sortField=${sortOption.field}&sortOrder=${sortOption.order}`)
+    //     setLoading(true); // Start loading
 
+    //     fetch(`https://spw-app-server.vercel.app/products?page=${currentPage}&size=${itemsPerPage}&sortField=${sortOption.field}&sortOrder=${sortOption.order}`)
     //         .then(res => res.json())
     //         .then(data => {
     //             setProducts(data);
@@ -59,10 +79,46 @@ const Shop = () => {
     //             const uniqueBrands = [...new Set(data.map(item => item.brand))];
     //             setCategories(uniqueCategories);
     //             setBrands(uniqueBrands);
+    //             setLoading(false); // Stop loading
+    //         })
+    //         .catch(() => {
+    //             setLoading(false); // Stop loading even if there's an error
     //         });
     // }, [currentPage, itemsPerPage, sortOption]);
 
-
+    // useEffect(() => {
+    //     setLoading(true); // Start loading
+    
+    //     fetch(`https://spw-app-server.vercel.app/products?page=${currentPage}&size=${itemsPerPage}&sortField=${sortOption.field}&sortOrder=${sortOption.order}`)
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             setProducts(data);
+    
+    //             // Extract categories and brands
+    //             const uniqueCategories = [...new Set(data.map(item => item.category))];
+    //             const uniqueBrands = [...new Set(data.map(item => item.brand))];
+    //             setCategories(uniqueCategories);
+    //             setBrands(uniqueBrands);
+    
+    //             // Filter products based on the current filters
+    //             const filtered = data.filter(product => {
+    //                 const title = product.title || ''; // Ensure the name is a string, even if it's undefined
+    //                 return (
+    //                     (filters.brand ? product.brand === filters.brand : true) &&
+    //                     (filters.category ? product.category === filters.category : true) &&
+    //                     (product.price >= filters.minPrice && product.price <= filters.maxPrice) &&
+    //                     (title.toLowerCase().includes(searchQuery.toLowerCase()))
+    //                 );
+    //             });
+    //             setFilteredProducts(filtered);
+    
+    //             setLoading(false); // Stop loading
+    //         })
+    //         .catch(() => {
+    //             setLoading(false); // Stop loading even if there's an error
+    //         });
+    // }, [currentPage, itemsPerPage, sortOption, filters, searchQuery]);
+    
     useEffect(() => {
         const storedCart = getShoppingCart();
         const savedCart = [];
@@ -126,9 +182,14 @@ const Shop = () => {
         }
     };
 
+    // const applyFilters = (filterValues) => {
+    //     setFilters(filterValues);
+    // };
     const applyFilters = (filterValues) => {
         setFilters(filterValues);
+        setCurrentPage(0); // Reset to first page when filters are applied
     };
+    
 
     // filter mobile 
     const [isFilterVisible, setIsFilterVisible] = useState(false);
@@ -241,7 +302,7 @@ const Shop = () => {
             </div>
             <div className='hidden md:block'>
                 <div className='pagination rounded-xl'>
-                    <p className='text-white'>Current Page : {currentPage}</p>
+                    {/* <p className='text-white'>Current Page : {currentPage}</p> */}
                     <button className='rounded-full px-12 py-6' onClick={handlePrevPage}>Prev</button>
 
                     {
@@ -265,7 +326,7 @@ const Shop = () => {
                     <button className='rounded-full px-12 py-6' onClick={handleNextPage}>Next</button>
 
                     <select value={itemsPerPage} onChange={handleItemsPerPage} name='' id=''>
-                        {/* <option value='5'>5</option> */}
+                         
                         <option value='10'>10</option>
                         <option value='20'>20</option>
                         <option value='40'>40</option>
