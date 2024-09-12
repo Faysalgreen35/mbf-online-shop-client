@@ -10,6 +10,7 @@ import {
 import cartProductsLoader from './../component/loaders/cartProductsLoader';
 import Orders from "../component/Orders/Orders";
 import PrivateRoutes from "../Provider/PrivateRoutes";
+import CarrierPage from "../component/CarrierPage/CarrierPage";
 export const router = createBrowserRouter([
     {
       path: "/",
@@ -33,6 +34,10 @@ export const router = createBrowserRouter([
         {
           path: '/register',
           element: <Register></Register>
+        }, 
+        {
+          path: '/carrier',
+          element: <CarrierPage></CarrierPage>
         }, 
      
       ]

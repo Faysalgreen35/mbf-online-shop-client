@@ -49,7 +49,7 @@ const Navbar = () => {
             `block  py-2 md:py-3 px-4 rounded md:p-0 md:px-4  md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 ${
               isActive
                 ? 'bg-red-800  text-white   dark:bg-blue-500'
-                : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700'
+                : 'text-white hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700'
             }`
           }
           aria-current="page"
@@ -65,12 +65,27 @@ const Navbar = () => {
               isActive
                 ? 'bg-red-800  text-white   dark:bg-blue-500'
                 
-                : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700'
+                : 'text-white hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700'
             }`
           }
           to="/orders"
         >
           Orders
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          className={({ isActive }) =>
+          `block  py-2 md:py-3 px-4 rounded md:p-0 md:px-4  md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 ${
+              isActive
+                ? 'bg-red-800  text-white   dark:bg-blue-500'
+                
+                : 'text-white hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700'
+            }`
+          }
+          to="/carrier"
+        >
+          Carrer
         </NavLink>
       </li>
       {!user && (
@@ -81,7 +96,7 @@ const Navbar = () => {
               isActive
                 ? 'bg-red-800  text-white   dark:bg-blue-500'
                
-                  : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700'
+                  : 'text-white hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700'
               }`
             }
             to="/login"
@@ -98,7 +113,7 @@ const Navbar = () => {
               isActive
                 ? 'bg-red-800  text-white   dark:bg-blue-500'
                
-                  : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700'
+                  : 'text-white hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700'
               }`
             }
             to="/register"
@@ -111,14 +126,16 @@ const Navbar = () => {
   );
   
   return (
-    <div>
-      <nav className="bg-white border-gray-200 dark:bg-gray-900 z-50 relative">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    // <div>
+    <div className="navbar fixed z-10 bg-opacity-10 bg-black text-white max-w-screen-xl">
+      {/* <nav className="bg-white border-gray-200 dark:bg-gray-900 z-50 relative"> */}
+      <nav className='relative z-50'>
+        <div className="max-w-screen-8xl flex flex-wrap items-center justify-end mx-auto p-4 ml-12">
           <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               <img src={logo} className="w-8 h-8" alt="" />
             </span>
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white  ">
          MBF Shop
             </span>
           </a>
@@ -163,8 +180,8 @@ const Navbar = () => {
               </>
             )}
           </div>
-          <div className="hidden md:flex space-x-8 rtl:space-x-reverse items-center">
-            <ul className="flex space-x-8 rtl:space-x-reverse md:text-xl font-bold uppercase">
+          <div className="hidden md:flex space-x-8 rtl:space-x-reverse   items-center  ">
+            <ul className="flex  ml-0 md:ml-60  space-x-8 rtl:space-x-reverse justify-end md:text-sm font-bold  ">
               {navOptions}
             </ul>
           </div>
@@ -181,9 +198,10 @@ const Navbar = () => {
               <IoMenu />
             </button>
             <div
-              className={`absolute top-12 right-0 z-50 ${isMenuOpen ? 'block' : 'hidden'} bg-white divide-y divide-gray-100 rounded-lg shadow w-48 dark:bg-gray-700 dark:divide-gray-600`}
+              className={`absolute top-12 right-0  z-50 ${isMenuOpen ? 'block' : 'hidden'} bg-white divide-y divide-gray-100 rounded-lg shadow w-48 dark:bg-gray-700 dark:divide-gray-600`}
             >
-              <ul className="py-4" aria-labelledby="navbar-user">
+              <ul className="py-4  ml-20  " aria-labelledby="navbar-user">
+               
                 {navOptions}
               </ul>
             </div>
@@ -197,77 +215,4 @@ const Navbar = () => {
 export default Navbar;
 
 
- 
- 
-// import { NavLink } from 'react-router-dom';
-// import logo from'../../assets/logo.jpeg' 
-
-// const Navbar = () => {
-
   
-//   return (
-//     <nav className="bg-white border-gray-200 dark:bg-gray-900">
-//       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-//         <a href="https://flowbite.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
-//           <img
-//             src={logo}
-//             className="h-8"
-//             alt="Flowbite Logo"
-//           />
-//           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-//             MBF Shop
-//           </span>
-//         </a>
-//         <div className="flex md:order-2">
-//           {/* Other elements like search and buttons */}
-//         </div>
-//         <div
-//           className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
-//           id="navbar-search"
-//         >
-//           <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-//             <li>
-//               <NavLink
-//                 to="/"
-//                 exact
-//                 className="block py-2 px-3 rounded md:bg-transparent md:p-0"
-//                 activeClassName="text-white bg-blue-700 md:text-blue-700 md:dark:text-blue-500"
-//               >
-//                 Home
-//               </NavLink>
-//             </li>
-//             <li>
-//               <NavLink
-//                 to="/login"
-//                 className="block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0"
-//                 activeClassName="text-white bg-blue-700 md:text-blue-700 md:dark:text-blue-500"
-//               >
-//                 Login
-//               </NavLink>
-//             </li>
-//             <li>
-//               <NavLink
-//                 to="/register"
-//                 className="block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0"
-//                 activeClassName="text-white bg-blue-700 md:text-blue-700 md:dark:text-blue-500"
-//               >
-//                 Register
-//               </NavLink>
-//             </li>
-//             <li>
-//               <NavLink
-//                 to="/orders"
-//                 className="block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0"
-//                 activeClassName="text-white bg-blue-700 md:text-blue-700 md:dark:text-blue-500"
-//               >
-//                 Orders
-//               </NavLink>
-//             </li>
-//           </ul>
-//         </div>
-//       </div>
-//     </nav>
-//   );
-// };
-
-// export default Navbar;

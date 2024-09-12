@@ -221,10 +221,12 @@ const Shop = () => {
 
 
     return (
-        <div className='shop-container mx-auto'>
+        <div className='shop-container mx-auto '>
 
-            <div className='flex md:flex-row mt-5 4 flex-col justify-evenly items-center gap-2 mx-auto'>
-                <div className='w-full  md:w-1/2 px-4 translate-x-0 md:translate-x-44'>  <SearchBar setSearchQuery={setSearchQuery} /></div>
+            <div className='flex md:flex-row mt-2 flex-col justify-evenly items-center gap-2 mx-auto'>
+                <div className='w-full  mt-32 md:w-1/2 px-4 translate-x-0 md:translate-x-44'>  
+                <SearchBar setSearchQuery={setSearchQuery} />
+                </div>
 
                 <div className='w-full md:w-1/3 text-center md:text-end'>
                     <div className='flex items-center justify-between'>
@@ -239,7 +241,7 @@ const Shop = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className='mr-4 md:mr-0'>
+                        <div className='mr-4 md:mr-0 mt-32'>
                             <Sorting
                                 sortOptions={[
                                     { value: 'dateAdded-desc', label: ' Newest First' },
